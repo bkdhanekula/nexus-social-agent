@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Nexus — Social Media Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <div id="apiModal" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-logo">nex<span>us</span></div>
+      <h2>Connect your AI engine</h2>
+      <p>Enter your Gemini API key to activate AI captions, content moderation, sentiment analysis, and smart hashtag suggestions.</p>
+      <input type="password" id="apiKeyInput" placeholder="AIza..." autocomplete="off"/>
+      <div class="modal-hint">Get your free key at <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a></div>
+      <button id="saveApiKey">Activate Nexus AI</button>
+      <div id="modalError" class="modal-error" style="display:none"></div>
+    </div>
+  </div>
+
+  <div id="mainApp" class="app" style="display:none">
+    <header class="topbar">
+      <div class="logo">nex<span>us</span></div>
+      <div class="search-wrap"><div class="search-bar">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="7" cy="7" r="5"/><path d="M11 11l3 3"/></svg>
+        <input placeholder="Search people, posts, topics..." autocomplete="off"/>
+      </div></div>
+      <div class="topbar-right">
+        <div class="gemini-pill"><svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="#7c3aed" stroke-width="1.5"><path d="M8 2l1 2.5L12 5l-2 2 .5 3L8 9l-2.5 1L6 7 4 5l3-.5L8 2z"/></svg>Gemini active</div>
+        <div class="notif-btn"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2a5 5 0 00-5 5v3l-1 2h12l-1-2V7a5 5 0 00-5-5zM6.5 13.5a1.5 1.5 0 003 0"/></svg><div class="notif-dot"></div></div>
+        <div class="user-av" onclick="resetApiKey()" title="Change API key">TK</div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <nav class="sidebar">
+        <div class="nav-label">Discover</div>
+        <div class="nav-item active" onclick="switchTab('feed',this)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>Feed</div>
+        <div class="nav-item" onclick="switchTab('caption',this)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2l1 2.5L12 5l-2 2 .5 3L8 9l-2.5 1L6 7 4 5l3-.5L8 2z"/></svg>AI Caption Studio</div>
+        <div class="nav-item" onclick="switchTab('moderate',this)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2l6 4v4a6 6 0 01-12 0V6l6-4z"/></svg>Content Shield</div>
+        <div class="nav-item" onclick="switchTab('sentiment',this)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M5.5 9.5s1 1.5 2.5 1.5 2.5-1.5 2.5-1.5M6 6.5h.5M9.5 6.5h.5"/></svg>Sentiment Analyser</div>
+        <div class="nav-item" onclick="switchTab('trending',this)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12 L5 8 L8 10 L11 5 L14 7"/></svg>Trending</div>
+        <div class="nav-label">Account</div>
+        <div class="nav-item" onclick="switchTab('profile',this)"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>My Profile</div>
+        <div class="api-key-btn" onclick="resetApiKey()">Change API Key</div>
+      </nav>
+
+      <main class="main-content">
+        <div id="tab-feed" class="tab active">
+          <div class="page-header"><h1>Your Feed</h1><p class="subtitle">AI-curated content from your community</p></div>
+          <div class="stories-row">
+            <div class="story"><div class="story-ring add"><div class="story-inner add-inner"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="#999" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v6M5 8h6"/></svg></div></div><span>Your story</span></div>
+            <div class="story"><div class="story-ring"><div class="story-inner" style="background:#ff4d6d">RK</div></div><span>Riya K.</span></div>
+            <div class="story"><div class="story-ring"><div class="story-inner" style="background:#7c3aed">AS</div></div><span>Arjun S.</span></div>
+            <div class="story"><div class="story-ring"><div class="story-inner" style="background:#0d9488">PM</div></div><span>Priya M.</span></div>
+            <div class="story"><div class="story-ring"><div class="story-inner" style="background:#d97706">VN</div></div><span>Vikram N.</span></div>
+          </div>
+          <div class="compose-card">
+            <div class="compose-top">
+              <div class="user-av small">TK</div>
+              <textarea id="composeText" class="compose-input" rows="2" placeholder="What's on your mind? Gemini will suggest hashtags..."></textarea>
+            </div>
+            <div class="compose-actions">
+              <button class="compose-btn gem-btn" onclick="aiSuggestHashtags()"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="#7c3aed" stroke-width="1.5"><path d="M8 2l1 2.5L12 5l-2 2 .5 3L8 9l-2.5 1L6 7 4 5l3-.5L8 2z"/></svg><span>AI Suggest</span></button>
+              <button class="compose-btn" onclick="moderateCompose()"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2l6 4v4a6 6 0 01-12 0V6l6-4z"/></svg>Check Safety</button>
+              <button class="post-btn" onclick="publishPost()">Post</button>
+            </div>
+            <div id="hashtagSuggestions" class="ht-box" style="display:none"></div>
+            <div id="safetyResult" class="safety-result" style="display:none"></div>
+          </div>
+          <div id="postsContainer"></div>
+        </div>
+
+        <div id="tab-caption" class="tab">
+          <div class="page-header"><h1>AI Caption Studio</h1><p class="subtitle">Gemini crafts engaging captions and hashtags tailored to your platform and style</p></div>
+          <div class="studio-card">
+            <div class="form-group"><label class="studio-label">Describe your post</label><textarea id="captionPrompt" class="studio-textarea" rows="4" placeholder="E.g. A sunset photo from Hussain Sagar lake after the GDG hackathon..."></textarea></div>
+            <div class="form-group"><label class="studio-label">Tone and style</label><div class="chips" id="styleChips"><div class="chip active" data-val="Inspirational">Inspirational</div><div class="chip" data-val="Professional">Professional</div><div class="chip" data-val="Humorous">Humorous</div><div class="chip" data-val="Minimal">Minimal</div><div class="chip" data-val="Storytelling">Storytelling</div></div></div>
+            <div class="form-group"><label class="studio-label">Platform</label><div class="chips" id="platformChips"><div class="chip active" data-val="LinkedIn">LinkedIn</div><div class="chip" data-val="Instagram">Instagram</div><div class="chip" data-val="Twitter/X">Twitter/X</div></div></div>
+            <button class="primary-btn" id="genCaptionBtn" onclick="generateCaptions()">Generate 3 captions with Gemini</button>
+            <div id="captionOutput"></div>
+          </div>
+        </div>
+
+        <div id="tab-moderate" class="tab">
+          <div class="page-header"><h1>Content Shield</h1><p class="subtitle">AI-powered moderation — detect toxic, harmful or inappropriate content before it goes live</p></div>
+          <div class="studio-card">
+            <div class="form-group"><label class="studio-label">Paste content to analyse</label><textarea id="moderateInput" class="studio-textarea" rows="5" placeholder="Paste a comment, caption, or post here..."></textarea></div>
+            <button class="primary-btn" id="moderateBtn" onclick="moderateContent()">Analyse with Content Shield</button>
+            <div id="moderateOutput"></div>
+          </div>
+        </div>
+
+        <div id="tab-sentiment" class="tab">
+          <div class="page-header"><h1>Sentiment Analyser</h1><p class="subtitle">Understand the emotional tone of posts, comments, and community discussions</p></div>
+          <div class="studio-card">
+            <div class="form-group"><label class="studio-label">Enter text to analyse</label><textarea id="sentimentInput" class="studio-textarea" rows="5" placeholder="Paste comments, a post, or any community text here..."></textarea></div>
+            <button class="primary-btn" id="sentimentBtn" onclick="analyseSentiment()">Analyse sentiment with Gemini</button>
+            <div id="sentimentOutput"></div>
+          </div>
+        </div>
+
+        <div id="tab-trending" class="tab">
+          <div class="page-header"><h1>Trending Topics</h1><p class="subtitle">What your community is talking about right now</p></div>
+          <div class="trending-grid">
+            <div class="trend-card hot"><span class="trend-rank">#1</span><span class="trend-tag">#AgenticAI</span><span class="trend-count">42.3k posts</span><span class="trend-delta">+218% today</span></div>
+            <div class="trend-card"><span class="trend-rank">#2</span><span class="trend-tag">#GeminiAPI</span><span class="trend-count">31.1k posts</span><span class="trend-delta">+94%</span></div>
+            <div class="trend-card"><span class="trend-rank">#3</span><span class="trend-tag">#BuildWithAI</span><span class="trend-count">28.7k posts</span><span class="trend-delta">+67%</span></div>
+            <div class="trend-card"><span class="trend-rank">#4</span><span class="trend-tag">#VertexAI</span><span class="trend-count">19.4k posts</span><span class="trend-delta">+45%</span></div>
+            <div class="trend-card"><span class="trend-rank">#5</span><span class="trend-tag">#Firebase</span><span class="trend-count">15.2k posts</span><span class="trend-delta">+31%</span></div>
+            <div class="trend-card"><span class="trend-rank">#6</span><span class="trend-tag">#HyderabadTech</span><span class="trend-count">12.8k posts</span><span class="trend-delta">+28%</span></div>
+          </div>
+          <div class="studio-card" style="margin-top:16px">
+            <label class="studio-label" style="display:block;margin-bottom:8px">Ask Gemini about any trend</label>
+            <div style="display:flex;gap:8px">
+              <input type="text" id="trendInput" class="trend-input" placeholder="Why is #AgenticAI trending? What should I post?"/>
+              <button class="primary-btn" style="width:auto;padding:10px 16px;white-space:nowrap" onclick="askTrend()">Ask Gemini</button>
+            </div>
+            <div id="trendOutput"></div>
+          </div>
+        </div>
+
+        <div id="tab-profile" class="tab">
+          <div class="page-header"><h1>My Profile</h1></div>
+          <div class="profile-card">
+            <div class="profile-banner"></div>
+            <div class="profile-body">
+              <div class="profile-av-lg">BK</div>
+              <div class="profile-info">
+                <h2>Techie</h2>
+                <p class="handle">Balakrishna · Data Architect · Hyderabad</p>
+                <p class="bio">Building data ecosystems on GCP </p>
+                <div class="profile-stats">
+                  <div class="pstat"><strong>4.2k</strong><span>Followers</span></div>
+                  <div class="pstat"><strong>892</strong><span>Following</span></div>
+                  <div class="pstat"><strong>127</strong><span>Posts</span></div>
+                  <div class="pstat"><strong>18.6k</strong><span>Reach</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="toast-container"></div>
+  <script src="gemini.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
